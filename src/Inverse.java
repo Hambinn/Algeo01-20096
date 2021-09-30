@@ -1,7 +1,8 @@
 //import jdk.internal.jimage.decompressor.ZipDecompressorFactory;
 
 public class Inverse {
-    public static float[][] inverse(float matrix[][],int row, int col) {
+    public static float[][] inverseAdj(float matrix[][],int row, int col) {
+        //Invers Adjoin
         float matrixCadang[][] = new float[row][col];
         for(int i = 0;i<row;i++){
             for(int j = 0;j<col;j++){
@@ -146,6 +147,7 @@ public class Inverse {
     }
     
     public static float[][] inverseOBE(float[][] matrix){
+        // Invers OBE
         float matrixProcess[][] = new float[matrix.length][2 * matrix.length];
         for (int i = 0; i < matrix.length; i++){
             for (int j = matrix.length; j < 2 * matrix.length; j++){
@@ -202,12 +204,5 @@ public class Inverse {
             flag = false;
         }
         return flag;
-    }
-
-    public static void main(String[] args){
-        float m[][] = { {1, 6, 4}, 
-                        {2, 4, -1},
-                        {-1, 2, 5} };
-        inverseOBE(m);
     }
 }

@@ -48,7 +48,7 @@ public class Main {
             
 
             else if(menu == 3){
-                //Matriks Balikan
+                SPL3();
             }
 
 
@@ -94,14 +94,41 @@ public class Main {
     }
     
     public static void SPL3() {
-        System.out.println("\nMasukkan Ukuran Matrix");
-        System.out.println("\n(ukuran matrix harus n x n)");
+        System.out.println("");
+        System.out.println("1. Invers menggunakan reduksi baris");
+        System.out.println("2. Invers menggunakan ekspansi kofaktor");
+        System.out.print("Pilih metode yang ingin digunakan : ");
+
         Scanner input = new Scanner(System.in);
-        int n = input.nextInt();
-        float matrix[][] = new float[n][n];
-        BacaMatrix(matrix, n, n);
-        Inverse.inverse(matrix, n, n);
-        printMatrix(matrix, n, n);
+        int num = input.nextInt();
+
+        if (num == 1){
+            System.out.println("\nMasukkan Ukuran Matriks");
+            System.out.println("(ukuran matrix harus n x n)");
+            int n = input.nextInt();
+            float matrix[][] = new float[n][n];
+            float matrixRes[][] = new float[n][n];
+
+            BacaMatrix(matrix, n, n);
+            matrixRes = matrix;
+            matrix = Inverse.inverseOBE(matrix);
+
+            if (matrix == matrixRes){ // Invers tidak ada
+                System.out.println("Matriks ini tidak memiliki balikan");
+            }
+            else{ // Invers ada
+                printMatrix(matrix, n, n);
+            }
+        }
+        else if (num == 2){
+            System.out.println("\nMasukkan Ukuran Matriks");
+            System.out.println("(ukuran matrix harus n x n)");
+            int n = input.nextInt();
+            float matrix[][] = new float[n][n];
+            BacaMatrix(matrix, n, n);
+            Inverse.inverseAdj(matrix, n, n);
+        }
+            
     }
     
     public static void SPL4() {
