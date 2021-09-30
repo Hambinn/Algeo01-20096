@@ -142,4 +142,40 @@ public class Inverse {
             return (isDetermminant(matrix, row-1));
         }
     }
+    
+    public static void inverseOBE(float[][] matrix){
+        float matrixProcess[][] = new float[matrix.length][2 * matrix.length];
+        for (int i = 0; i < matrix.length; i++){
+            for (int j = matrix.length; j < 2 * matrix.length; j++){
+                if (j - i == matrix.length){
+                    matrixProcess[i][j] = 1;
+                }
+                else{
+                    matrixProcess[i][j] = 0;
+                }
+            }
+        }
+        invMatrix(matrix, matrixProcess);
+        for(int i = 0;i < matrixProcess.length; i++){
+            for(int j = 0; j < matrixProcess[0].length;j++){
+                System.out.print(String.format("%5.2f", matrixProcess[i][j]));
+            }
+            System.out.println();
+        }
+    }    
+
+    public static void invMatrix(float[][] mPar, float[][] mRes){
+        for (int i = 0; i < mPar.length; i++){
+            for (int j = 0; j < mPar.length; j++){
+                mRes[i][j] = mPar[i][j];
+            }
+        }
+    }
+
+    public static void main(String[] args){
+        float m[][] = { {1, 2, 3}, 
+                        {5, 6, 7},
+                        {3, 7, 2} };
+        inverseOBE(m);
+    }
 }
