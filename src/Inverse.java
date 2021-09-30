@@ -9,7 +9,7 @@ public class Inverse {
                 matrixCadang[i][j] = matrix[i][j];
             }
         }
-        if(isSquare(row, col) && determinant(matrix, row) != 0){
+        if(isSquare(row, col) && KofaktorDeterminan.determinant(matrix, row) != 0){
             float matrixID[][] = new float[row][col];
             for(int a =0;a<row;a++){
                 for(int b = 0; b<col;b++){
@@ -35,7 +35,6 @@ public class Inverse {
                 }
                 
             }
-
 
             for(int i = 0;i<row;i++){
                 for(int j = 0; j<row;j++){
@@ -75,38 +74,7 @@ public class Inverse {
         return(a == b);
     }
 
-    public static float determinant(float matrix[][], int row) {
-        float det=0;
-        if(row == 1){
-            return matrix[0][0];
-        }
-        float tmp[][] = new float[row][row];
-        int mult = 1;
-        for(int f = 0;f<row;f++){
-            kofaktor(matrix, tmp, 0, f, row);
-            det += mult * matrix[0][f] * determinant(tmp,row-1);
-            mult = -mult;
-        }
-
-        return det;
-    }
-
-    public static void kofaktor(float matrix[][], float tmp[][],int p, int q,int row) {
-        int a=0;
-        int b=0;
-
-        for(int i = 0;i<matrix.length;i++){
-            for(int j = 0;j<matrix.length;j++){
-                if(i != p && j!= q){
-                    tmp[a][b++] = matrix[i][j];
-                    if (b == matrix.length-1){
-                        b = 0;
-                        a++;
-                    }
-                }
-            }
-        }
-    }
+    
 
     public static boolean isDetermminant(float matrix[][], int row) {
         int i = matrix.length - row;
