@@ -1,3 +1,5 @@
+//import jdk.internal.jimage.decompressor.ZipDecompressorFactory;
+
 public class Inverse {
     public static float[][] inverse(float matrix[][],int row, int col) {
         float matrixCadang[][] = new float[row][col];
@@ -143,7 +145,7 @@ public class Inverse {
         }
     }
     
-    public static void inverseOBE(float[][] matrix){
+    public static float[][] inverseOBE(float[][] matrix){
         float matrixProcess[][] = new float[matrix.length][2 * matrix.length];
         for (int i = 0; i < matrix.length; i++){
             for (int j = matrix.length; j < 2 * matrix.length; j++){
@@ -155,12 +157,22 @@ public class Inverse {
                 }
             }
         }
+
         invMatrix(matrix, matrixProcess);
-        for(int i = 0;i < matrixProcess.length; i++){
-            for(int j = 0; j < matrixProcess[0].length;j++){
-                System.out.print(String.format("%5.2f", matrixProcess[i][j]));
+
+        if(hasInverse(matrixProcess)){
+            for (int i = 0; i < matrix.length; i++){
+                for (int j = 0; j < matrix.length; j++){
+                    matrix[i][j] = matrixProcess[i][j + matrixProcess.length];
+                }
             }
-            System.out.println();
+            return matrix;
+        }
+        else{
+            /* Mengembalikan matriks yang sama dengan input.
+            Apabila di luar terdeteksi matriks input sama dengan output,
+            maka akan mengeluarkan pesan tidak memiliki invers*/
+            return matrix;
         }
     }    
 
@@ -170,12 +182,32 @@ public class Inverse {
                 mRes[i][j] = mPar[i][j];
             }
         }
+
+        mRes = GaussJordanElimination.gaussJordanElimination(mRes);
+    }
+
+    public static boolean hasInverse(float[][] matrix){
+        // Memiliki invers jika tidak ada baris di 3 baris dan kolom pertama yang semua valuenya 0
+        boolean flag = true;
+        int zeroCount = 0;
+        for (int i = 0; i < matrix.length; i++){
+            zeroCount = 0;
+            for (int j = 0; j < matrix.length; j++){
+                if (matrix[i][j] == 0){
+                    zeroCount += 1;
+                }
+            }
+        }
+        if (zeroCount == matrix.length){
+            flag = false;
+        }
+        return flag;
     }
 
     public static void main(String[] args){
-        float m[][] = { {1, 2, 3}, 
-                        {5, 6, 7},
-                        {3, 7, 2} };
+        float m[][] = { {1, 6, 4}, 
+                        {2, 4, -1},
+                        {-1, 2, 5} };
         inverseOBE(m);
     }
 }
