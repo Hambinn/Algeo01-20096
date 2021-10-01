@@ -5,7 +5,11 @@ public class Interpolasi {
         Scanner input = new Scanner(System.in);
         int inputMethod = input.nextInt();
         if (inputMethod == 1){
-            float matrixInput[][] = Main.bacaUkuranMatriks(false);
+            System.out.println("\nMasukkan Ukuran Matrix n x 2");
+            System.out.print("n : ");
+            int n = input.nextInt();
+            float matrixInput[][] = new float[n][2];
+
             System.out.println("Masukkan koefisien a[i][j] untuk matriks : ");
             readMatrix(matrixInput, matrixInput.length, 2);
 

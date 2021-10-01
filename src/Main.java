@@ -79,10 +79,40 @@ public class Main {
 
     // semangat!!! //
     public static void SPL1(){
-        boolean isSquare = false;
-        float matrix[][] = bacaUkuranMatriks(isSquare);
-        matrix = GaussElimination.gaussElimination(BacaMatrix(matrix));
-        printMatrix(matrix);
+        displayPilihanInput();
+        Scanner input = new Scanner(System.in);
+        int num = input.nextInt();
+        if(num == 1) {
+            boolean isSquare = false;
+            float matrix[][] = bacaUkuranMatriks(isSquare);
+            System.out.println("Masukkan koefisien a[i][j] untuk matriks : ");
+            matrix = BacaMatrix(matrix);
+            matrix = GaussElimination.gaussElimination(matrix);
+            printMatrix(matrix);
+        }
+        else if(num == 2){
+            float matrix[][] = FileProcess.fileProcessing();
+            matrix = GaussElimination.gaussElimination(matrix);
+            
+            if(SplOBE.rowStatus(matrix, matrix.length - 1) == 1){
+                for (int i = 0; i < matrix.length; i++){
+                    matrix[i][i] *= matrix[i][matrix.length - 1];
+                }
+                
+                System.out.println("\nSolusi dari sistem persamaan yang dimasukkan:");
+                for (int i = 0; i < matrix.length; i++){
+                    for (int j = 0; j < matrix.length; j++){
+                        System.out.println("x" + i + " = " + matrix[i][i]);
+                    }
+                }
+            }
+            else if(SplOBE.rowStatus(matrix, matrix.length - 1) == -1){
+                System.out.println("\nSistem Persamaan Linier tidak memiliki solusi");
+            }
+            else if(SplOBE.rowStatus(matrix, matrix.length - 1) == 0){
+                printMatrix(matrix);
+            }
+        }
         // Pemrosesan Gauss Elimination tanpa interpretasi solusi
     }
     public static void SPL2(){
@@ -94,31 +124,49 @@ public class Main {
             float matrix[][] = bacaUkuranMatriks(isSquare);
             System.out.println("Masukkan koefisien a[i][j] untuk matriks : ");
             matrix = BacaMatrix(matrix);
-            matrix = GaussJordanElimination.gaussJordanElimination(BacaMatrix(matrix));
+            matrix = GaussJordanElimination.gaussJordanElimination(matrix);
             
-            for (int j = 0; j < matrix.length; j++){
-                if(SplOBE.rowStatus(matrix, j) == 1){
-                    float matrixClone[][] = matrix;
-                    matrix = SplOBE.solutionOperation(matrix);
-                    System.out.println("\nSolusi dari sistem persamaan yang dimasukkan:");
-                    
-                    for (int i = 0; i < matrix.length; i++){
-                        for (int j = 0; j < matrix.length; j++){
-                            if(matrixC[i][j] == ){
-                                System.out.println("x" + i + " = " + matrixResult[i][i]);
-                            }
-                        }
-                    }
+            if(SplOBE.rowStatus(matrix, matrix.length -1) == 1){
+                printMatrix(matrix);
+                for (int i = 0; i < matrix.length; i++){
+                    matrix[i][i] *= matrix[i][matrix.length - 1];
+                }
+                
+                System.out.println("\nSolusi dari sistem persamaan yang dimasukkan:");
+                for (int i = 0; i < matrix.length; i++){
+                    System.out.println("x" + i + " = " + matrix[i][matrix[0].length - 1]);
                 }
             }
-            
+            else if(SplOBE.rowStatus(matrix, matrix.length - 1) == -1){
+                System.out.println("\nSistem Persamaan Linier tidak memiliki solusi");
+            }
+            else if(SplOBE.rowStatus(matrix, matrix.length - 1) == 0){
+                printMatrix(matrix);
+            }
         }
         else if(num == 2){
             float matrix[][] = FileProcess.fileProcessing();
-            float det = ObeDeterminant.determinant(matrix);
-            System.out.printf("Determinan = %\n", det);
+            matrix = GaussJordanElimination.gaussJordanElimination(matrix);
+            
+            if(SplOBE.rowStatus(matrix, matrix.length - 1) == 1){
+                for (int i = 0; i < matrix.length; i++){
+                    matrix[i][i] *= matrix[i][matrix.length - 1];
+                }
+                
+                System.out.println("\nSolusi dari sistem persamaan yang dimasukkan:");
+                for (int i = 0; i < matrix.length; i++){
+                    for (int j = 0; j < matrix.length; j++){
+                        System.out.println("x" + i + " = " + matrix[i][i]);
+                    }
+                }
+            }
+            else if(SplOBE.rowStatus(matrix, matrix.length - 1) == -1){
+                System.out.println("\nSistem Persamaan Linier tidak memiliki solusi");
+            }
+            else if(SplOBE.rowStatus(matrix, matrix.length - 1) == 0){
+                printMatrix(matrix);
+            }
         }
-        printMatrix(matrix);
         // Pemrosesan Gauss-Jordan Elimination tanpa interpretasi solusi
     }
     public static void SPL3(){
@@ -231,6 +279,8 @@ public class Main {
                 System.out.println("Matriks ini tidak memiliki balikan");
                 }
                 else{ // Invers ada
+                    System.out.println();
+                    System.out.println("Matriks Balikan :");
                     printMatrix(matrix);
                 }
             }
@@ -286,7 +336,7 @@ public static void reg() {
             hasilY = hasilY + (X * hasil[i]);  
         }
     }
-    System.out.printf("Nilai Y adalah: %f", hasilY);
+    System.out.printf("Nilai Y adalah: %f\n", hasilY);
 
 }
     // >>>>>>SUPPORTING METHOD

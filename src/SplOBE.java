@@ -1,28 +1,4 @@
 public class SplOBE {
-    /*
-    public static float[] SplGauss(float[][] M){
-        for (int i = 0; i < M.length; i++){
-            int verdict = rowStatus(M, i);
-            if (verdict == 0){ // Solusi banyak
-                
-            }
-            else if (verdict == 1){ // Solusi Unik atau tunggal
-                
-            }
-            else if (verdict == -1){ // Tidak ada solusi
-                
-            }
-        }
-
-        float[] arraySPL;
-        return arraySPL;
-    }
-    
-    
-    public static float[] SplGaussJordan(float[][] M){
-
-    }
-    */
 
     public static int rowStatus(float[][] M, int row){
         int nonZeroAppear = 0; 
@@ -48,18 +24,4 @@ public class SplOBE {
             }
         }
     }
-
-    /*
-    public static float[] specialSolution(float[][] M){
-        float arraySPL[] = new float[M[0].length - 1];
-        for (int i = M.length - 1; i >= 0; i--){
-            for (int j = 0; j < M[0].length; j++){
-                if (M[i][j] == 1){
-                    // Belum selesai, bingung
-                }
-            }
-        }
-    }
-    */
-
 }
