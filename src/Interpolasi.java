@@ -1,13 +1,11 @@
 import java.util.Scanner;
 public class Interpolasi {
     public static void interpolasi() {
-        //minta n
-        
         Main.displayPilihanInput();
         Scanner input = new Scanner(System.in);
         int inputMethod = input.nextInt();
         if (inputMethod == 1){
-            float matrixInput[][] = Main.bacaUkuranMatriks(true);
+            float matrixInput[][] = Main.bacaUkuranMatriks(false);
             System.out.println("Masukkan koefisien a[i][j] untuk matriks : ");
             readMatrix(matrixInput, matrixInput.length, 2);
 
