@@ -68,7 +68,7 @@ public class Main {
             }
             
             else if(menu == 5){
-
+                reg();
             }
 
             else if(menu == 6){
@@ -146,10 +146,6 @@ public class Main {
             float det = KofaktorDeterminan.determinant(matrix,matrix.length);
             System.out.printf("Determinan = %f", det);
         }
-
-        
-
-        
     }
     // >>>>>>INVERS
     public static void inv() {
@@ -220,6 +216,45 @@ public class Main {
                 }
             }
         }
+    }
+    //Regresi Linear Berganda
+    public static void reg(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int i;
+        float hasilY, X;
+        float matrix[][] = FileProcess.fileProcessing();
+        float hasil[] = new float[matrix.length];
+
+        hasil = RegLinGanda.reglinganda(matrix, matrix.length, (matrix[0].length-1));
+        System.out.println("Persamaan regresinya adalah: ");
+        System.out.print("Y = ");
+        System.out.print(hasil[0]);
+        System.out.print(" + ");
+        for(i=1; i < matrix[0].length; i++){
+            if(i != matrix[0].length-1 ){
+                System.out.print(hasil[i]);
+                System.out.printf(" X%d", i);
+                System.out.print(" + ");
+            }else{
+                System.out.print(hasil[i]);
+                System.out.printf(" X%d", i);
+            }
+        }
+        hasilY = hasil[0];
+        for(i=1; i < matrix[0].length; i++){
+            if( i != matrix[0].length-1){
+                System.out.println("");
+                System.out.printf("Masukkan nilai X%d :", i);
+                X = in.nextFloat();
+                hasilY = hasilY + (X * hasil[i]);
+            }else{
+                System.out.printf("Masukkan nilai X%d :", i);
+                X = in.nextFloat();
+                hasilY = hasilY + (X * hasil[i]);  
+            }
+        }
+        System.out.printf("Nilai Y adalah: %f", hasilY);
+
     }
 
     // >>>>>>SUPPORTING METHOD
