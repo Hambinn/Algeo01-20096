@@ -16,14 +16,20 @@ public class Main {
             int menu = input.nextInt();                 
             
             if(menu == 1){
-                System.out.print("\nMasukkan metode yang dipilih : ");
+                System.out.println("");
+                System.out.println("=====Sistem Persamaan Linier=====");
+                System.out.println("1. Metode Eliminasi Gauss");
+                System.out.println("2. Metode Eliminasi Gauss-Jordan");
+                System.out.println("3. Metode matriks balikan");
+                System.out.println("4. Metode Cramer");
+                System.out.print("Masukkan metode yang dipilih : ");
                 int subMenuSatu = input.nextInt();
                 if(subMenuSatu == 1){
                     SPL1();
                 }
                 
                 else if(subMenuSatu == 2){
-                    // jordan
+                    SPL2();
                 }
 
                 else if(subMenuSatu == 3){
@@ -31,13 +37,18 @@ public class Main {
                 }
 
                 else if(subMenuSatu == 4){
-                    //cramer
+                    SPL4();
                 }
             }
 
             else if(menu == 2){
+                System.out.println("");
+                System.out.println("=====Determinan=====");
+                System.out.println("1. Determinan Menggunakan Reduksi Baris");
+                System.out.println("2. Determinan Menggunakan Kofaktor");
+                System.out.print("Masukkan metode yang dipilih : ");
                 int subMenuDua = input.nextInt();
-                if(subMenuDua == 2){
+                if(subMenuDua == 1){
                     det1();
                 }
 
@@ -53,7 +64,7 @@ public class Main {
 
 
             else if(menu == 4){
-
+                Interpolasi.interpolasi();
             }
             
             else if(menu == 5){
@@ -66,73 +77,81 @@ public class Main {
         }
     }
 
-
-    public static void  BacaMatrix(float matrix[][],int row, int col){
-        Scanner in = new Scanner(System.in);
-        for(int i=0;i<row;i++){
-            for(int j =0;j<col;j++){
-                matrix[i][j] = in.nextFloat();
-            }
-        }
-    }
-
-    public static void printMatrix(float matrix[][],int row, int col) {
-        for(int i =0;i<row;i++){
-            for(int j = 0;j<col;j++){
-                System.out.print(String.format("%7.2f", matrix[i][j]));
-            }
-            System.out.println();
-        }
-    }
-
     // semangat!!! //
     public static void SPL1(){
-        
+        boolean isSquare = false;
+        float matrix[][] = bacaUkuranMatriks(isSquare);
+        matrix = GaussElimination.gaussElimination(BacaMatrix(matrix));
+        printMatrix(matrix);
+        // Pemrosesan Gauss Elimination tanpa interpretasi solusi
     }
     public static void SPL2(){
-        
+        boolean isSquare = false;
+        float matrix[][] = bacaUkuranMatriks(isSquare);
+        matrix = GaussJordanElimination.gaussJordanElimination(BacaMatrix(matrix));
+        printMatrix(matrix);
+        // Pemrosesan Gauss-Jordan Elimination tanpa interpretasi solusi
     }
     public static void SPL3(){
+        boolean isSquare = true;
+        float matrix[][] = bacaUkuranMatriks(isSquare);
+        matrix = splInverse.splInverse(matrix);
+        for(int i = 0;i<matrix.length;i++){
+            for(int j = 0;j<matrix.length;j++){
+                System.out.print("x"+i+" = " + matrix[i][j]);
+            }
+        }
+    }
+    public static void SPL4() {
+        boolean isSquare = false;
+        float matrix[][] = bacaUkuranMatriks(isSquare);
+        
+        float arraySPL[] = Cramer.cramer(matrix.length, matrix[0].length, BacaMatrix(matrix));
+        for (int i = 0; i < arraySPL.length; i++){
+            System.out.println("x"+ i + " = " + arraySPL[i]);
+        }
+    }
+    // >>>>>>DETERMINAN
+    public static void det1() {
+        displayPilihanInput();
+        Scanner input = new Scanner(System.in);
+        int num = input.nextInt();
+        if(num == 1) {
+            boolean isSquare = true;
+            float matrix[][] = bacaUkuranMatriks(isSquare);
+            System.out.println("Masukkan koefisien a[i][j] untuk matriks : ");
+            matrix = BacaMatrix(matrix);
+            float det = ObeDeterminant.determinant(matrix);
+            System.out.printf("Determinan = %f\n", det);
+
+        }else if(num == 2){
+            float matrix[][] = FileProcess.fileProcessing();
+            float det = ObeDeterminant.determinant(matrix);
+            System.out.printf("Determinan = %\n", det);
+        }
+    }
+    public static void det2() {
+        displayPilihanInput();
+        Scanner input = new Scanner(System.in);
+        int num = input.nextInt();
+        if(num == 1) {
+            boolean isSquare = true;
+            float matrix[][] = bacaUkuranMatriks(isSquare);
+            System.out.println("Masukkan koefisien a[i][j] untuk matriks : ");
+            matrix = BacaMatrix(matrix);
+            float det = KofaktorDeterminan.determinant(matrix, matrix.length);
+            System.out.printf("Determinan = %f", det);
+        }else if(num == 2){
+            float matrix[][] = FileProcess.fileProcessing();
+            float det = KofaktorDeterminan.determinant(matrix,matrix.length);
+            System.out.printf("Determinan = %f", det);
+        }
+
+        
+
         
     }
-    
-    public static void SPL4() {
-        System.out.println("\nMasukkan Ukuran Matrix");
-        Scanner input = new Scanner(System.in);
-        int m = input.nextInt();
-        int n = input.nextInt();
-        float matrix[][] = new float[m][n];
-        BacaMatrix(matrix, m, n);
-        Cramer.cramer(m, n, matrix);
-        printMatrix(matrix, m, n);
-    }
-
-    public static void det1() {
-        System.out.println("\nMasukkan Ukuran Matrix");
-        System.out.print("n : ");
-        Scanner input = new Scanner(System.in);
-        int n = input.nextInt();
-        float matrix[][] = new float[n][n];
-
-        System.out.println("Masukkan koefisien a[i][j] untuk matriks : ");
-        BacaMatrix(matrix, n, n);
-        float det = ObeDeterminant.determinant(matrix);
-        System.out.printf("Determinan = %f\n", det);
-    }
-
-    public static void det2() {
-        System.out.println("\nMasukkan Ukuran Matrix");
-        System.out.print("n : ");
-        Scanner input = new Scanner(System.in);
-        int n = input.nextInt();
-        float matrix[][] = new float[n][n];
-
-        System.out.println("Masukkan koefisien a[i][j] untuk matriks : ");
-        BacaMatrix(matrix, n, n);
-        float det = KofaktorDeterminan.determinant(matrix, n);
-        System.out.printf("Determinan = %f", det);
-    }
-
+    // >>>>>>INVERS
     public static void inv() {
         System.out.println("");
         System.out.println("1. Invers menggunakan reduksi baris");
@@ -143,59 +162,109 @@ public class Main {
         int num = input.nextInt();
 
         if (num == 1){
-            System.out.println("\nMasukkan Ukuran Matriks");
-            System.out.println("(ukuran matrix harus n x n)");
-            System.out.print("n : ");
-            int n = input.nextInt();
-            float matrix[][] = new float[n][n];
-            float matrixAsal[][] = new float[n][n];
+            float matrix[][] = bacaUkuranMatriks(true);
+            float matrixAsal[][] = new float[matrix.length][matrix.length];
 
-            System.out.println("\nMetode Input");
-            System.out.println("1. Input melalui keyboard");
-            System.out.println("2. Input melalui file");
-            System.out.print("Pilih metode input yang diinginkan : ");
+            displayPilihanInput();
             int inputMethod = input.nextInt();
 
             if (inputMethod == 1){
                 System.out.println("Masukkan koefisien a[i][j] untuk matriks : ");
-                BacaMatrix(matrix, n, n);
+                matrix = BacaMatrix(matrix);
                 matrixAsal = matrix;
                 matrix = Inverse.inverseOBE(matrix);
             }
 
             else if (inputMethod == 2){
-                System.out.print(" : ");
-                String matFile = input.nextLine();
-                FileProcess.fileInput(matFile);
+                FileProcess.fileProcessing();
             }
 
             if (matrix == matrixAsal){ // Invers tidak ada
                 System.out.println("Matriks ini tidak memiliki balikan");
             }
             else{ // Invers ada
-                printMatrix(matrix, n, n);
+                printMatrix(matrix);
             }
         }
         else if (num == 2){
-            System.out.println("\nMasukkan Ukuran Matriks");
-            System.out.println("(ukuran matrix harus n x n)");
-            System.out.print("n : ");
-            int n = input.nextInt();
-            float matrix[][] = new float[n][n];
-            float matrixAsal[][] = new float[n][n];
+            displayPilihanInput();
+            int inputMethod = input.nextInt();
 
-            System.out.println("Masukkan koefisien a[i][j] untuk matriks : ");
-            BacaMatrix(matrix, n, n);
-            matrixAsal = matrix;
-            matrix = Inverse.inverseAdj(matrix, n, n);
+            if (inputMethod == 1){
+                float matrix[][] = bacaUkuranMatriks(true);
+                float matrixAsal[][] = matrix;
+                System.out.println("Masukkan koefisien a[i][j] untuk matriks : ");
+                matrix = BacaMatrix(matrix);
+                matrixAsal = matrix;
+                matrix = Inverse.inverseAdj(matrix, matrix.length, matrix.length);
 
-            if (matrix == matrixAsal){ // Invers tidak ada
+                if (matrix == matrixAsal){ // Invers tidak ada
                 System.out.println("Matriks ini tidak memiliki balikan");
+                }
+                else{ // Invers ada
+                    printMatrix(matrix);
+                }
             }
-            else{ // Invers ada
-                printMatrix(matrix, n, n);
+            else if (inputMethod == 2){
+                float matrix[][] = FileProcess.fileProcessing();
+                float matrixAsal[][] = matrix;
+
+                matrixAsal = matrix;
+                matrix = Inverse.inverseAdj(matrix, matrix.length, matrix.length);
+
+                if (matrix == matrixAsal){ // Invers tidak ada
+                System.out.println("Matriks ini tidak memiliki balikan");
+                }
+                else{ // Invers ada
+                    printMatrix(matrix);
+                }
             }
         }
     }
-    
+
+    // >>>>>>SUPPORTING METHOD
+    public static void displayPilihanInput(){
+        System.out.println("\nMetode Input");
+        System.out.println("1. Input melalui keyboard");
+        System.out.println("2. Input melalui file");
+        System.out.print("Pilih metode input yang diinginkan : ");
+    }
+    public static float[][]  BacaMatrix(float matrix[][]){
+        Scanner in = new Scanner(System.in);
+        for(int i = 0; i < matrix.length; i++){
+            for(int j = 0; j < matrix[0].length; j++){
+                matrix[i][j] = in.nextFloat();
+            }
+        }
+        return matrix;
+    }
+    public static void printMatrix(float matrix[][]) {
+        for (int i = 0; i < matrix.length; i++){
+            for (int j = 0; j < matrix[0].length; j++){
+                System.out.print(String.format("%7.2f", matrix[i][j]));
+            }
+            System.out.println();
+        }
+    }
+    public static float[][] bacaUkuranMatriks(boolean isSquare){
+        if (isSquare){
+            System.out.println("\nMasukkan Ukuran Matrix n x n");
+            System.out.print("n : ");
+            Scanner input = new Scanner(System.in);
+            int n = input.nextInt();
+            float matrix[][] = new float[n][n];
+            return matrix;
+        }
+        else{
+            Scanner input = new Scanner(System.in);
+            System.out.println("\nMasukkan Ukuran Matrix m x n");
+            System.out.print("m : ");
+            int m = input.nextInt();
+            System.out.print("n : ");
+            int n = input.nextInt();
+            
+            float matrix[][] = new float[m][n];
+            return matrix;
+        }
+    }
 }

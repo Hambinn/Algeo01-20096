@@ -1,26 +1,26 @@
 public class splInverse {
-    public static float[][] splInverse(float matriks[][], int row,int col) {
-        if(col!=row+1){
+    public static float[][] splInverse(float matriks[][]) {
+        if(matriks.length-1!=matriks.length+1){
             return matriks;
         }else{
-            float matrixVar[][] = new float[row][col-1];
-            float matrixRes[][] = new float[row][1];
-            float matrixKali[][] = new float[row][1];
-            for(int i = 0;i<row;i++){
-                for(int j = 0;j<col-1;j++){
+            float matrixVar[][] = new float[matriks.length-1][matriks.length-1-1];
+            float matrixRes[][] = new float[matriks.length-1][1];
+            float matrixKali[][] = new float[matriks.length-1][1];
+            for(int i = 0;i<matriks.length;i++){
+                for(int j = 0;j<matriks.length-1;j++){
                     matrixVar[i][j] = matriks[i][j];
                 }
             }
             
-            for(int i = 0;i<row;i++){
-                matrixRes[i][0] = matriks[i][col-1];
+            for(int i = 0;i<matriks.length;i++){
+                matrixRes[i][0] = matriks[i][matriks.length-1-1];
             }
 
-            for(int i = 0;i<row;i++){
+            for(int i = 0;i<matriks.length;i++){
                 for(int j = 0;j<1;j++){
                     float elm = 0;
-                    for(int k = 0;k<col-1;k++){
-                        elm +=  matrixRes[k][j] * inverse(matrixVar, row, row)[i][k];
+                    for(int k = 0;k<matriks.length-1;k++){
+                        elm +=  matrixRes[k][j] * inverse(matrixVar, matriks.length-1, matriks.length-1)[i][k];
                     }
                     matrixKali[i][j] = elm;
                 }

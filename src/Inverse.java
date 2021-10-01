@@ -70,7 +70,6 @@ public class Inverse {
     }
     
     public static boolean isSquare(int a, int b) {
-
         return(a == b);
     }
 
