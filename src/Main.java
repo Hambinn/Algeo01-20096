@@ -150,10 +150,24 @@ public class Main {
             float matrix[][] = new float[n][n];
             float matrixAsal[][] = new float[n][n];
 
-            System.out.println("Masukkan koefisien a[i][j] untuk matriks : ");
-            BacaMatrix(matrix, n, n);
-            matrixAsal = matrix;
-            matrix = Inverse.inverseOBE(matrix);
+            System.out.println("\nMetode Input");
+            System.out.println("1. Input melalui keyboard");
+            System.out.println("2. Input melalui file");
+            System.out.print("Pilih metode input yang diinginkan : ");
+            int inputMethod = input.nextInt();
+
+            if (inputMethod == 1){
+                System.out.println("Masukkan koefisien a[i][j] untuk matriks : ");
+                BacaMatrix(matrix, n, n);
+                matrixAsal = matrix;
+                matrix = Inverse.inverseOBE(matrix);
+            }
+
+            else if (inputMethod == 2){
+                System.out.print(" : ");
+                String matFile = input.nextLine();
+                FileProcess.fileInput(matFile);
+            }
 
             if (matrix == matrixAsal){ // Invers tidak ada
                 System.out.println("Matriks ini tidak memiliki balikan");
